@@ -1,0 +1,49 @@
+﻿@model BookLibrary.Models.Domain.Book
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Book</h4>
+<hr />
+<div class="row">
+        <form class="col s12" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Guid" />
+            <div class="row">
+                <div class="input-field col s6">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="input-field col s6">
+                    <label asp-for="Author" class="control-label"></label>
+                    <input asp-for="Author" class="form-control" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label asp-for="ISBN" class="control-label"></label>
+                    <input asp-for="ISBN" class="form-control" />
+                    <span asp-validation-for="ISBN" class="text-danger"></span>
+                </div> 
+            </div>
+            <div class="row">
+                <label class="input-field col s12">
+                    <input type="checkbox" class="filled-in" asp-for="Available" />
+                    <span>@Html.DisplayNameFor(model => model.Available)</span>
+                </label>
+            </div>
+            <div class="row">
+                <input type="submit" value="Save" class="waves-effect waves-light btn" />
+            </div>
+        </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
