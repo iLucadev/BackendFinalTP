@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.ISBN)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Available)
+                @Html.DisplayNameFor(model => model.IsBorrowed)
             </th>
             <th></th>
         </tr>
@@ -40,13 +40,13 @@
                 @Html.DisplayFor(modelItem => item.ISBN)
             </td>
             <td>
-                @if (item.Available)
+                    @if (item.IsBorrowed)
                 {
-                   <span>Disponible</span>
+                   <span>Prestado</span>
                 }
                 else
                 {
-                   <span>No disponible</span>
+                   <span>Disponible</span>
                 }
             </td>
             <td>

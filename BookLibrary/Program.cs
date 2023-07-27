@@ -1,9 +1,9 @@
-using AutoMapper;
 using BookLibrary;
 using BookLibrary.Data;
 using BookLibrary.Data.Repositories.Abstract;
 using BookLibrary.Data.Repositories.Implementation;
-using BookLibrary.Models.Domain;
+using BookLibrary.Services;
+using BookLibrary.Services.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +15,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<IRepository<Book>, Repository<Book>>();
-builder.Services.AddScoped<IBookRepository, BookService>();
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // Configurar AutoMapper
 builder.Services.AddAutoMapper(typeof(Program), typeof(AutoMapperProfile)); // Automatically scans and detects profiles in the service container

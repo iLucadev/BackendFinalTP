@@ -1,37 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookLibrary.Models.Domain;
-using BookLibrary.Data.Repositories.Abstract;
+using BookLibrary.Services.Abstract;
 
 namespace BookLibrary.Controllers
 {
     public class BookController : Controller
     {
-        private readonly IRepository<Book> _bookRepository;
-        private readonly IBookRepository _borrowRepository;
-        public BookController(IRepository<Book> bookRepository, IBookRepository borrowRepository)
+
+        private readonly IBookService _bookService;
+        public BookController(IBookService bookService)
         {
-            _bookRepository = bookRepository;
-            _borrowRepository = borrowRepository;
+            _bookService = bookService;
         }
 
 
         // GET: Book
         public async Task<IActionResult> Index()
         {
-            var books = await _bookRepository.GetAll();
+            var books = await _bookService.GetAllBooks();
             return View(books);
         }
 
         // GET: Book/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid? bookId)
         {
-            if (id == null)
+            if (bookId == null)
             {
                 return NotFound();
             }
 
-            var book = await _bookRepository.GetById(id);
+            var book = await _bookService.GetBookById(bookId);
             if (book == null)
             {
                 return NotFound();
@@ -53,7 +52,7 @@ namespace BookLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _bookRepository.Insert(book);
+                await _bookService.CreateBook(book);
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
@@ -67,7 +66,7 @@ namespace BookLibrary.Controllers
                 return NotFound();
             }
 
-            var book = await _bookRepository.GetById(id);
+            var book = await _bookService.GetBookById(id);
             if (book == null)
             {
                 return NotFound();
@@ -89,7 +88,7 @@ namespace BookLibrary.Controllers
             {
                 try
                 {
-                    await _bookRepository.Update(book);
+                    await _bookService.UpdateBook(book);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -115,7 +114,7 @@ namespace BookLibrary.Controllers
                 return NotFound();
             }
 
-            var book = await _bookRepository.GetById(id);
+            var book = await _bookService.GetBookById(id);
             if (book == null)
             {
                 return NotFound();
@@ -129,17 +128,24 @@ namespace BookLibrary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var book = await _bookRepository.GetById(id);
-            if (book != null)
+            var book = await _bookService.GetBookById(id);
+            if (book == null)
             {
-                await _bookRepository.Delete(id);
+                return NotFound();
             }
+
+            if (book.IsBorrowed)
+            {
+                return BadRequest("Book is on loan.");
+            }
+
+            await _bookService.DeleteBook(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookViewModelExists(Guid id)
         {
-            var book = _bookRepository.GetById(id);
+            var book = _bookService.GetBookById(id);
             return book != null;
         }
     }

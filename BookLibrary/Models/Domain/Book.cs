@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookLibrary.Models.Domain
 {
@@ -20,9 +21,9 @@ namespace BookLibrary.Models.Domain
         public string ISBN { get; set; } = string.Empty;
 
         [Required]
-        public bool Available { get; set; } = true;
+        public bool IsBorrowed { get; set; } = false;
 
-        public List<CustomerBook> Customer_Book { get; set; } = new List<CustomerBook>();
+        public ICollection<BookCustomer> BookCustomers { get; set; }
 
         public Book()
         {

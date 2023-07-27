@@ -5,7 +5,7 @@ namespace BookLibrary.Data.Repositories.Implementation
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
         public Repository(ApplicationDbContext context)
         {
@@ -44,7 +44,17 @@ namespace BookLibrary.Data.Repositories.Implementation
 
         public async Task Delete(Guid? id)
         {
+            if (id == null)
+            {
+                return;
+            }
+
             T entity = await EntitySet.FindAsync(id);
+            if (entity == null)
+            {
+                return;
+            }
+
             EntitySet.Remove(entity);
             await _context.SaveChangesAsync();
         }

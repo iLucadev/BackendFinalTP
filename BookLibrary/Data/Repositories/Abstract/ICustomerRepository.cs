@@ -1,9 +1,8 @@
-﻿using BookLibrary.Models;
+﻿using BookLibrary.Models.Domain;
 
 namespace BookLibrary.Data.Repositories.Abstract
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository : IRepository<Customer>
     {
-        Task<int> GetBorrowedCount(Guid customerId);
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookLibrary.Models.Domain
 {
@@ -28,7 +28,7 @@ namespace BookLibrary.Models.Domain
         [StringLength(300, ErrorMessage = "Email is too big. 300 characters Max!")]
         public string Email { get; set; } = string.Empty;
 
-        public List<CustomerBook> Customer_Book { get; set; } = new List<CustomerBook>();
+        public ICollection<BookCustomer> BookCustomers { get; set; }
 
         public string FullName() => FirstName + " " + LastName;
 
