@@ -7,7 +7,7 @@ namespace BookLibrary.Models.Domain
     {
         [Key]
         [StringLength(36)]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Guid { get; set; } = Guid.NewGuid();
 
         [Required]
         [StringLength(50, MinimumLength = 4, ErrorMessage = "First Name should be between 4 - 50 characters")]

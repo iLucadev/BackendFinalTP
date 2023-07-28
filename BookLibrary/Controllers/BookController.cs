@@ -7,7 +7,6 @@ namespace BookLibrary.Controllers
 {
     public class BookController : Controller
     {
-
         private readonly IBookService _bookService;
         public BookController(IBookService bookService)
         {
