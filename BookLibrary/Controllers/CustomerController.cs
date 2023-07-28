@@ -20,13 +20,8 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Customer/Details/5
-        public async Task<IActionResult> Details(Guid? customerId)
+        public async Task<IActionResult> Details(Guid customerId)
         {
-            if (customerId == null)
-            {
-                return NotFound();
-            }
-
             var customer= await _customerService.GetCustomerById(customerId);
             if (customer == null)
             {
@@ -56,13 +51,8 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Customer/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var customer = await _customerService.GetCustomerById(id);
             if (customer == null)
             {
@@ -76,7 +66,7 @@ namespace BookLibrary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Guid,FirstName,LastName,Phone,Email")] Customer customer)
         {
-            if (id != customer.Guid)
+            if (id != customer.Id)
             {
                 return NotFound();
             }
@@ -89,7 +79,7 @@ namespace BookLibrary.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookViewModelExists(customer.Guid))
+                    if (!BookViewModelExists(customer.Id))
                     {
                         return NotFound();
                     }
@@ -104,13 +94,8 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Customer/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var customer = await _customerService.GetCustomerById(id);
             if (customer == null)
             {

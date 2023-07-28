@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using BookLibrary.Models.Domain;
 using BookLibrary.Services.Abstract;
+using System.Net;
 
 namespace BookLibrary.Controllers
 {
@@ -22,20 +23,15 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Book/Details/5
-        public async Task<IActionResult> Details(Guid? bookId)
+        public async Task<IActionResult> Details(Guid bookId)
         {
-            if (bookId == null)
-            {
-                return NotFound();
-            }
-
             var book = await _bookService.GetBookById(bookId);
             if (book == null)
             {
                 return NotFound();
             }
-
-            return View(book);
+            
+            return View(book);           
         }
 
         // GET: Book/Create
@@ -47,7 +43,7 @@ namespace BookLibrary.Controllers
         // POST: Book/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Guid,Title,Author,ISBN,Available")] Book book)
+        public async Task<IActionResult> Create(Book book)
         {
             if (ModelState.IsValid)
             {
@@ -58,14 +54,9 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Book/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid bookId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _bookService.GetBookById(id);
+            var book = await _bookService.GetBookById(bookId);
             if (book == null)
             {
                 return NotFound();
@@ -76,9 +67,9 @@ namespace BookLibrary.Controllers
         // POST: Book/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Guid,Title,Author,ISBN,Available")] Book book)
+        public async Task<IActionResult> Edit(Guid id, Book book)
         {
-            if (id != book.Guid)
+            if (id != book.Id)
             {
                 return NotFound();
             }
@@ -91,7 +82,7 @@ namespace BookLibrary.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookViewModelExists(book.Guid))
+                    if (!BookViewModelExists(book.Id))
                     {
                         return NotFound();
                     }
@@ -106,28 +97,22 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Book/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid bookId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _bookService.GetBookById(id);
+            var book = await _bookService.GetBookById(bookId);
             if (book == null)
             {
                 return NotFound();
             }
-
             return View(book);
         }
 
         // POST: Book/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid bookId)
         {
-            var book = await _bookService.GetBookById(id);
+            var book = await _bookService.GetBookById(bookId);
             if (book == null)
             {
                 return NotFound();
@@ -138,13 +123,13 @@ namespace BookLibrary.Controllers
                 return BadRequest("Book is on loan.");
             }
 
-            await _bookService.DeleteBook(id);
+            await _bookService.DeleteBook(bookId);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookViewModelExists(Guid id)
+        private bool BookViewModelExists(Guid bookId)
         {
-            var book = _bookService.GetBookById(id);
+            var book = _bookService.GetBookById(bookId);
             return book != null;
         }
     }

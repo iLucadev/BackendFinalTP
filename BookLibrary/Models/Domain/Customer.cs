@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookLibrary.Models.Domain
 {
     public class Customer
     {
         [Key]
-        [StringLength(36)]
-        public Guid Guid { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
         [StringLength(50, MinimumLength = 4, ErrorMessage = "First Name should be between 4 - 50 characters")]
@@ -28,7 +26,7 @@ namespace BookLibrary.Models.Domain
         [StringLength(300, ErrorMessage = "Email is too big. 300 characters Max!")]
         public string Email { get; set; } = string.Empty;
 
-        public ICollection<BookCustomer> BookCustomers { get; set; }
+        public ICollection<BookCustomer>? BookCustomers { get; set; }
 
         public string FullName() => FirstName + " " + LastName;
 

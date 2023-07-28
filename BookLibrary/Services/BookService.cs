@@ -1,5 +1,4 @@
 ﻿using BookLibrary.Data.Repositories.Abstract;
-using BookLibrary.Data.Repositories.Implementation;
 using BookLibrary.Models.Domain;
 using BookLibrary.Services.Abstract;
 
@@ -20,15 +19,15 @@ namespace BookLibrary.Services
         {
             return await _bookRepository.GetAll();
         }
-        public async Task<Book?> GetBookById(Guid? bookId)
+        public async Task<Book?> GetBookById(Guid bookId)
         {
             var book = await _bookRepository.GetById(bookId);
 
-            return book ?? null;
+            return book;
         }
         public async Task CreateBook(Book book)
         {
-           await _bookRepository.Insert(book);
+            await _bookRepository.Insert(book);
         }
 
         public async Task DeleteBook(Guid bookId)
@@ -47,10 +46,15 @@ namespace BookLibrary.Services
                 return null;
             }
 
-            var borrowerId = book.BookCustomers.FirstOrDefault()?.CustomerId;
+            var borrowerId = book.BookCustomers.FirstOrDefault().CustomerId;
+            if (borrowerId == null)
+            {
+                return null;
+            }
+
             var borrower = await _customerRepository.GetById(borrowerId);
 
-            return borrower ?? null;
+            return borrower;
         }
         public async Task<bool> IsAvailable(Guid bookId)
         {

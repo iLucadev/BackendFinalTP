@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<BookLibrary.Models.Domain.Customer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Customers";
 }
 
-<h1>Index</h1>
+<h2>Customers</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="waves-effect waves-light btn" asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="striped">
     <thead>
         <tr>
             <th>
@@ -31,6 +31,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
@@ -43,9 +46,8 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Guid">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Guid">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Guid">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

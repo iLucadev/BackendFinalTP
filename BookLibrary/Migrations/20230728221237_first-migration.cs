@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class firstmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,22 +15,22 @@ namespace BookLibrary.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    Guid = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Author = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    Available = table.Column<bool>(type: "bit", maxLength: 300, nullable: false)
+                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsBorrowed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.Guid);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
@@ -42,26 +42,23 @@ namespace BookLibrary.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customer_BookViewModel",
+                name: "BookCustomers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Borrowed = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer_BookViewModel", x => x.Id);
+                    table.PrimaryKey("PK_BookCustomers", x => new { x.BookId, x.CustomerId });
                     table.ForeignKey(
-                        name: "FK_Customer_BookViewModel_Books_BookId",
+                        name: "FK_BookCustomers_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
-                        principalColumn: "Guid",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Customer_BookViewModel_Customers_CustomerId",
+                        name: "FK_BookCustomers_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
@@ -69,13 +66,8 @@ namespace BookLibrary.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customer_BookViewModel_BookId",
-                table: "Customer_BookViewModel",
-                column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customer_BookViewModel_CustomerId",
-                table: "Customer_BookViewModel",
+                name: "IX_BookCustomers_CustomerId",
+                table: "BookCustomers",
                 column: "CustomerId");
         }
 
@@ -83,7 +75,7 @@ namespace BookLibrary.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Customer_BookViewModel");
+                name: "BookCustomers");
 
             migrationBuilder.DropTable(
                 name: "Books");

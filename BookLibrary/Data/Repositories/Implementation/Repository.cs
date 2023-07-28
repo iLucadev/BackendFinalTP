@@ -5,7 +5,7 @@ namespace BookLibrary.Data.Repositories.Implementation
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly ApplicationDbContext _context;
+        protected ApplicationDbContext _context;
 
         public Repository(ApplicationDbContext context)
         {
@@ -31,7 +31,7 @@ namespace BookLibrary.Data.Repositories.Implementation
             return await EntitySet.ToListAsync();
         }
 
-        public async Task<T?> GetById(Guid? id)
+        public async Task<T?> GetById(Guid id)
         {
             return await EntitySet.FindAsync(id);
         }
@@ -42,13 +42,8 @@ namespace BookLibrary.Data.Repositories.Implementation
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(Guid? id)
+        public async Task Delete(Guid id)
         {
-            if (id == null)
-            {
-                return;
-            }
-
             T entity = await EntitySet.FindAsync(id);
             if (entity == null)
             {

@@ -19,7 +19,7 @@ namespace BookLibrary.Services
             return await _customerRepository.GetAll();
 
         }
-        public async Task<Customer?> GetCustomerById(Guid? customerId)
+        public async Task<Customer?> GetCustomerById(Guid customerId)
         {
             var customer = await _customerRepository.GetById(customerId);
 
