@@ -20,9 +20,9 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Customer/Details/5
-        public async Task<IActionResult> Details(Guid customerId)
+        public async Task<IActionResult> Details(Guid Id)
         {
-            var customer= await _customerService.GetCustomerById(customerId);
+            var customer= await _customerService.GetCustomerById(Id);
             if (customer == null)
             {
                 return NotFound();
@@ -40,7 +40,7 @@ namespace BookLibrary.Controllers
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Guid,FirstName,LastName,Phone,Email")] Customer customer)
+        public async Task<IActionResult> Create(Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -51,9 +51,9 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Customer/Edit/5
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid Id)
         {
-            var customer = await _customerService.GetCustomerById(id);
+            var customer = await _customerService.GetCustomerById(Id);
             if (customer == null)
             {
                 return NotFound();
@@ -64,9 +64,9 @@ namespace BookLibrary.Controllers
         // POST: Customer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Guid,FirstName,LastName,Phone,Email")] Customer customer)
+        public async Task<IActionResult> Edit(Guid Id, [Bind("Guid,FirstName,LastName,Phone,Email")] Customer customer)
         {
-            if (id != customer.Id)
+            if (Id != customer.Id)
             {
                 return NotFound();
             }
@@ -94,9 +94,9 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Customer/Delete/5
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid Id)
         {
-            var customer = await _customerService.GetCustomerById(id);
+            var customer = await _customerService.GetCustomerById(Id);
             if (customer == null)
             {
                 return NotFound();
@@ -108,9 +108,9 @@ namespace BookLibrary.Controllers
         // POST: Customer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid Id)
         {
-            var customer = await _customerService.GetCustomerById(id);
+            var customer = await _customerService.GetCustomerById(Id);
             if (customer == null)
             {
                 return NotFound();
@@ -127,13 +127,13 @@ namespace BookLibrary.Controllers
                 return BadRequest("Cannot delete customer. The following books are borrowed: " + string.Join(", ", borrowed));
             }
 
-            await _customerService.DeleteCustomer(id);
+            await _customerService.DeleteCustomer(Id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookViewModelExists(Guid id)
+        private bool BookViewModelExists(Guid Id)
         {
-            var book = _customerService.GetCustomerById(id);
+            var book = _customerService.GetCustomerById(Id);
             return book != null;
         }
 

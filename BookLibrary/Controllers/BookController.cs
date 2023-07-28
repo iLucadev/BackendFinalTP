@@ -23,9 +23,9 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Book/Details/5
-        public async Task<IActionResult> Details(Guid bookId)
+        public async Task<IActionResult> Details(Guid Id)
         {
-            var book = await _bookService.GetBookById(bookId);
+            var book = await _bookService.GetBookById(Id);
             if (book == null)
             {
                 return NotFound();
@@ -54,9 +54,9 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Book/Edit/5
-        public async Task<IActionResult> Edit(Guid bookId)
+        public async Task<IActionResult> Edit(Guid Id)
         {
-            var book = await _bookService.GetBookById(bookId);
+            var book = await _bookService.GetBookById(Id);
             if (book == null)
             {
                 return NotFound();
@@ -67,9 +67,9 @@ namespace BookLibrary.Controllers
         // POST: Book/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Book book)
+        public async Task<IActionResult> Edit(Guid Id, Book book)
         {
-            if (id != book.Id)
+            if (Id != book.Id)
             {
                 return NotFound();
             }
@@ -97,9 +97,9 @@ namespace BookLibrary.Controllers
         }
 
         // GET: Book/Delete/5
-        public async Task<IActionResult> Delete(Guid bookId)
+        public async Task<IActionResult> Delete(Guid Id)
         {
-            var book = await _bookService.GetBookById(bookId);
+            var book = await _bookService.GetBookById(Id);
             if (book == null)
             {
                 return NotFound();
@@ -110,9 +110,9 @@ namespace BookLibrary.Controllers
         // POST: Book/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid bookId)
+        public async Task<IActionResult> DeleteConfirmed(Guid Id)
         {
-            var book = await _bookService.GetBookById(bookId);
+            var book = await _bookService.GetBookById(Id);
             if (book == null)
             {
                 return NotFound();
@@ -123,13 +123,13 @@ namespace BookLibrary.Controllers
                 return BadRequest("Book is on loan.");
             }
 
-            await _bookService.DeleteBook(bookId);
+            await _bookService.DeleteBook(Id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookViewModelExists(Guid bookId)
+        private bool BookViewModelExists(Guid Id)
         {
-            var book = _bookService.GetBookById(bookId);
+            var book = _bookService.GetBookById(Id);
             return book != null;
         }
     }
