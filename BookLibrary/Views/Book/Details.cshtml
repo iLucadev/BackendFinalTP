@@ -6,37 +6,36 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
+<div class="card">
+    <dl class="card-content">
+        <dt class = "">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="row">
             @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="">
             @Html.DisplayNameFor(model => model.Author)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="row">
             @Html.DisplayFor(model => model.Author)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="">
             @Html.DisplayNameFor(model => model.ISBN)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="row">
             @Html.DisplayFor(model => model.ISBN)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="">
             @Html.DisplayNameFor(model => model.IsBorrowed)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="">
             @Html.DisplayFor(model => model.IsBorrowed)
         </dd>
+        <div class="right-align">
+            <a asp-action="Index" class="blue-text btn-flat">Back to List</a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary blue">Edit</a>
+        </div>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

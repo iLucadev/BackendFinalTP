@@ -4,11 +4,10 @@
     ViewData["Title"] = "Books";
 }
 
-<h2>Books</h2>
+<h2>All Books</h2>
 
-<p>
-    <a class="waves-effect waves-light btn" asp-action="Create">Add book</a>
-</p>
+<a class="waves-effect waves-light btn" asp-action="Create">Add book</a>
+
 <table class="striped">
     <thead>
         <tr>
@@ -52,8 +51,8 @@
             <td>
                 @* <i class="material-icons">edit</i> *@
                 @* <i class="material-icons">delete</i> *@
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="blue-text btn-flat">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary red">Delete</a>
             </td>
         </tr>
         }

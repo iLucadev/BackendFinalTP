@@ -31,13 +31,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.FirstName)</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                    <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.LastName)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)
@@ -48,8 +45,8 @@
             <td>
                 @* <i class="material-icons">edit</i> *@
                 @* <i class="material-icons">delete</i> *@
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="blue-text btn-flat">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary red">Delete</a>
             </td>
         </tr>
 }
